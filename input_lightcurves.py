@@ -23,6 +23,8 @@ def main():
           dataarray = np.vstack((dataarray,data))
           labelarray = np.vstack((labelarray,labellist))
 
+# Now shuffle it.
+
 
 # Standard boilerplate to call the main() function.
 if __name__ == '__main__':
