@@ -51,7 +51,7 @@ def main():
    label_test = label_shuf[:numtest]
 
    data_train = data_shuf[numtest:]
-   label_test = label_shuf[numtest:]
+   label_train = label_shuf[numtest:]
 
 
 # Standard boilerplate to call the main() function.
