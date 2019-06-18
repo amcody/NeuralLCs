@@ -76,7 +76,7 @@ def main():
   yhat = model.predict(x_input, verbose=1)
   print(yhat)
 
-# Look at whole test set
+# Assess performance for whole test set 
   print("Real label         |        Predictions")
   for i in np.arange(len(data_test[0:2])):
     x_input = data_test[i]
