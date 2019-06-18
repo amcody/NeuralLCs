@@ -56,25 +56,37 @@ def main():
 
 # Define model
   n_features = 1
-  n_steps = numdata - numtest
+  n_steps = data_train.shape[1]
 
   model = Sequential()
   model.add(Conv1D(filters=64, kernel_size=2, activation='relu', input_shape=(n_steps, n_features)))
   model.add(MaxPooling1D(pool_size=2))
   model.add(Flatten())
   model.add(Dense(50, activation='relu'))
-  model.add(Dense(1))
+  model.add(Dense(10))
   model.compile(optimizer='adam', loss='mse')
 
 # Fit model
-  model.fit(data_train, label_train, epochs=10, verbose=0)
+  data_train = data_train.reshape((data_train.shape[0], data_train.shape[1],1))
+  model.fit(data_train, label_train, epochs=10, verbose=1)
 
-# demonstrate prediction
-x_input = data_test[0]
-x_input = x_input.reshape((1, n_steps, n_features))
-yhat = model.predict(x_input, verbose=0)
-print(yhat)
+# Demonstrate prediction
+  x_input = data_test[7]
+  x_input = x_input.reshape((1, n_steps, n_features))
+  yhat = model.predict(x_input, verbose=1)
+  print(yhat)
 
+# Look at whole test set
+  print("Real label         |        Predictions")
+  for i in np.arange(len(data_test[0:2])):
+    x_input = data_test[i]
+    x_input = x_input.reshape((1, n_steps, n_features))
+    yhat = model.predict(x_input, verbose=0)
+    if (np.argmax(yhat[0]) == np.where(label_train[i] == 1)[0][0]): 
+      output = '  Correct!'
+    else:
+      output = '  Wrong.'
+    print(label_train[i], yhat[0], output, file=open("cnntest.txt", "a"))
 
 # Standard boilerplate to call the main() function.
 if __name__ == '__main__':
