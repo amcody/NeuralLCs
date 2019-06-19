@@ -63,12 +63,20 @@ def main():
   model.add(MaxPooling1D(pool_size=2))
   model.add(Flatten())
   model.add(Dense(50, activation='relu'))
-  model.add(Dense(10))
+  model.add(Dense(10, activation='softmax'))
   model.compile(optimizer='adam', loss='mse')
 
 # Fit model
   data_train = data_train.reshape((data_train.shape[0], data_train.shape[1],1))
-  model.fit(data_train, label_train, epochs=10, verbose=1)
+  history = model.fit(data_train, label_train, epochs=100, verbose=1)
+  epochs = range(1,len(loss)+1)
+  loss = history.history['loss']
+  val_loss = history.history['val_loss']
+
+  plt.plot(epochs,loss)
+  plt.xlabel('Epoch') 
+  plt.ylabel('Loss')
+  plt.savefig('Losstrend.png')
 
 # Demonstrate prediction
   x_input = data_test[7]
@@ -77,8 +85,8 @@ def main():
   print(yhat)
 
 # Assess performance for whole test set 
-  print("Real label         |        Predictions")
-  for i in np.arange(len(data_test[0:2])):
+  print("Real label         |        Predictions", file=open("cnntest.txt", "a")))
+  for i in np.arange(len(data_test)):
     x_input = data_test[i]
     x_input = x_input.reshape((1, n_steps, n_features))
     yhat = model.predict(x_input, verbose=0)
