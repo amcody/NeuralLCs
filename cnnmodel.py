@@ -35,7 +35,7 @@ def main():
   index_shuf = np.arange(len(labelarray))
   np.random.shuffle(index_shuf)
   for i in index_shuf:
-     if (i == index_shuf[0]):
+    if (i == index_shuf[0]):
        data_shuf = dataarray[i]
        label_shuf = labelarray[i]
      else:
@@ -69,8 +69,8 @@ def main():
 # Fit model
   data_train = data_train.reshape((data_train.shape[0], data_train.shape[1],1))
   history = model.fit(data_train, label_train, epochs=10, verbose=1)
-  epochs = range(1,len(loss)+1)
   loss = history.history['loss']
+  epochs = range(1,len(loss)+1)
   val_loss = history.history['val_loss']
 
   plt.plot(epochs,loss)
