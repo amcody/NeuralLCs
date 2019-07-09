@@ -10,12 +10,12 @@ from keras.layers.convolutional import MaxPooling1D
 
 def main():
 
-  labels = [0,1,2,3,4,5,6,7,8,9]
+  labels = [0,1,2,3,4,5,6,7,8]
 
 
 # Read in data
   for i in labels:
-      labellist = np.zeros(10,dtype=int)
+      labellist = np.zeros(9,dtype=int)
       labellist[i] = 1
 
       dir = 'LCs'+str(labels[i])
@@ -38,7 +38,7 @@ def main():
     if (i == index_shuf[0]):
        data_shuf = dataarray[i]
        label_shuf = labelarray[i]
-     else:
+    else:
        data_shuf = np.vstack((data_shuf,dataarray[i]))
        label_shuf = np.vstack((label_shuf,labelarray[i]))
 
@@ -63,15 +63,15 @@ def main():
   model.add(MaxPooling1D(pool_size=2))
   model.add(Flatten())
   model.add(Dense(50, activation='relu'))
-  model.add(Dense(10, activation='softmax'))
+  model.add(Dense(9, activation='softmax'))
   model.compile(optimizer='adam', loss='mse')
 
 # Fit model
   data_train = data_train.reshape((data_train.shape[0], data_train.shape[1],1))
-  history = model.fit(data_train, label_train, epochs=10, verbose=1)
+  history = model.fit(data_train, label_train, epochs=100, verbose=1)
   loss = history.history['loss']
   epochs = range(1,len(loss)+1)
-  val_loss = history.history['val_loss']
+#  val_loss = history.history['val_loss']
 
   plt.plot(epochs,loss)
   plt.xlabel('Epoch') 
