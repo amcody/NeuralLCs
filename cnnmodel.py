@@ -32,9 +32,9 @@ def main():
 
 # Now shuffle it.
 
-   index_shuf = np.arange(len(labelarray))
-   np.random.shuffle(index_shuf)
-   for i in index_shuf:
+  index_shuf = np.arange(len(labelarray))
+  np.random.shuffle(index_shuf)
+  for i in index_shuf:
      if (i == index_shuf[0]):
        data_shuf = dataarray[i]
        label_shuf = labelarray[i]
@@ -45,13 +45,13 @@ def main():
 
 # Chop off 25% of the data for testing; leave 75% for training:
 
-   numdata = len(label_shuf)
-   numtest = int(numdata/4)
-   data_test = data_shuf[:numtest]
-   label_test = label_shuf[:numtest]
+  numdata = len(label_shuf)
+  numtest = int(numdata/4)
+  data_test = data_shuf[:numtest]
+  label_test = label_shuf[:numtest]
 
-   data_train = data_shuf[numtest:]
-   label_train = label_shuf[numtest:]
+  data_train = data_shuf[numtest:]
+  label_train = label_shuf[numtest:]
 
 
 # Define model
@@ -68,7 +68,7 @@ def main():
 
 # Fit model
   data_train = data_train.reshape((data_train.shape[0], data_train.shape[1],1))
-  history = model.fit(data_train, label_train, epochs=100, verbose=1)
+  history = model.fit(data_train, label_train, epochs=10, verbose=1)
   epochs = range(1,len(loss)+1)
   loss = history.history['loss']
   val_loss = history.history['val_loss']
@@ -85,7 +85,7 @@ def main():
   print(yhat)
 
 # Assess performance for whole test set 
-  print("Real label         |        Predictions", file=open("cnntest.txt", "a")))
+  print("Real label         |        Predictions", file=open("cnntest.txt", "a"))
   for i in np.arange(len(data_test)):
     x_input = data_test[i]
     x_input = x_input.reshape((1, n_steps, n_features))
