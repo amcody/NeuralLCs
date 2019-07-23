@@ -49,6 +49,12 @@ def main():
           plt.ylabel('Normalized flux')
           plt.savefig(file[0:5]+'EPIC'+file[5:14]+'_interpolated.png')
 
+# Now output the data:
+
+          newfile = open(file[:file.find('.dat')]+'_interp.dat','w')
+          for i in np.arange(len(newdata)):  
+               print>>newfile, newdata[i]
+          newfile.close()
 
 # Standard boilerplate to call the main() function.
 if __name__ == '__main__':
