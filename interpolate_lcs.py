@@ -17,26 +17,25 @@ def main():
           print file
           data = np.loadtxt(file,dtype=float)
 
-# Find locations of zeros, apart from beginning and end
+# Find locations of zeros and interpolate/extrapolate them away...
           startind = 0
-          startval = data[startind]
-          while(startval == 0.0):
-             startind += 1
-             print startind
-             startval = data[startind] 
+#          startval = data[startind]
+#          while(startval == 0.0):
+#             startind += 1
+#             startval = data[startind] 
 
           endind = len(data) - 1
-          endval = data[endind]
-          while(endval == 0.0):
-             endind -= 1
-             endval = data[endind]
+#          endval = data[endind]
+#          while(endval == 0.0):
+#             endind -= 1
+#             endval = data[endind]
 
-          shortdata = data[startind:endind+1]
+          shortdata = np.copy(data[startind:endind+1])
           indices = np.arange(startind,endind+1)
 
           zero = np.where(shortdata == 0.0)
           goodpoints = np.where(shortdata != 0.0)
-          f = interp1d(goodpoints[0], shortdata[goodpoints])
+          f = interp1d(goodpoints[0], shortdata[goodpoints],fill_value='extrapolate')
           shortdata[zero] = f(zero)
           newdata = np.append(data[:startind],shortdata)
           newdata = np.append(newdata,data[endind+1:])
@@ -45,13 +44,12 @@ def main():
 # Plot the result
 
           plt.clf()
-          plt.plot(data, 'o', color='red',markersize=2.5)
+#          plt.plot(data, 'o', color='red',markersize=2.5)
           plt.plot(newdata, 'o', color='black',markersize=2.)
           plt.ylabel('Normalized flux')
-          plt.savefig(file[0:4]+'EPIC'+file[5:14]+'_interpolated.png')
+          plt.savefig(file[0:5]+'EPIC'+file[5:14]+'_interpolated.png')
 
 
 # Standard boilerplate to call the main() function.
 if __name__ == '__main__':
-
-
+  main()
