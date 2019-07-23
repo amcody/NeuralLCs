@@ -10,12 +10,11 @@ from keras.layers.convolutional import MaxPooling1D
 
 def main():
 
-  labels = [0,1,2,3,4,5,6,7,8]
+  labels = [5,7]
 
-
-# Read in data, but skip the last one, which is for unclassifiable light curves
-  for i in labels:
-      labellist = np.zeros(9,dtype=int)
+# Read in data just for periodic and stochastic stars
+  for i in np.arange(len(labels)):
+      labellist = np.zeros(2,dtype=int)
       labellist[i] = 1
 
       dir = 'LCs'+str(labels[i])
@@ -63,7 +62,7 @@ def main():
   model.add(MaxPooling1D(pool_size=2))
   model.add(Flatten())
   model.add(Dense(50, activation='relu'))
-  model.add(Dense(9, activation='softmax'))
+  model.add(Dense(2, activation='softmax'))
   model.compile(optimizer='adam', loss='mse')
 
 # Fit model
@@ -76,7 +75,7 @@ def main():
   plt.plot(epochs,loss)
   plt.xlabel('Epoch') 
   plt.ylabel('Loss')
-  plt.savefig('Losstrend.png')
+  plt.savefig('Losstrend_periodic_stochastic.png')
 
 # Demonstrate prediction
   x_input = data_test[7]
@@ -85,7 +84,7 @@ def main():
   print(yhat)
 
 # Assess performance for whole test set 
-  print("Real label         |        Predictions", file=open("cnntest_interpolateddata.txt", "a"))
+  print("Real label         |        Predictions", file=open("cnntest_interpolateddata_periodic_stochastic.txt", "a"))
   for i in np.arange(len(data_test)):
     x_input = data_test[i]
     x_input = x_input.reshape((1, n_steps, n_features))
@@ -94,7 +93,7 @@ def main():
       output = '  Correct!'
     else:
       output = '  Wrong.'
-    print(label_train[i], yhat[0], output, file=open("cnntest_interpolateddata.txt", "a"))
+    print(label_train[i], yhat[0], output, file=open("cnntest_interpolateddata_periodic_stochastic.txt", "a"))
 
 # Standard boilerplate to call the main() function.
 if __name__ == '__main__':
