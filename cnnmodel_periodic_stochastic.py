@@ -72,6 +72,7 @@ def main():
   epochs = range(1,len(loss)+1)
 #  val_loss = history.history['val_loss']
 
+  plt.clf()
   plt.plot(epochs,loss)
   plt.xlabel('Epoch') 
   plt.ylabel('Loss')
